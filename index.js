@@ -1,5 +1,6 @@
 const axios = require("axios");
 const express = require("express");
+const cors = require('cors')
 const { Decimal } = require("@cosmjs/math");
 const { QueryClient, setupAuthExtension } = require("@cosmjs/stargate");
 const { Tendermint34Client } = require("@cosmjs/tendermint-rpc");
@@ -11,7 +12,7 @@ const {
 
 require("dotenv").config();
 
-const denom = process.env.DENOM || "ujuno";
+const denom = process.env.DENOM || "uflix";
 const interval = process.env.INTERVAL || 7200000;
 
 const vestingAccounts = process.env.VESTING_ACCOUNTS
@@ -19,6 +20,7 @@ const vestingAccounts = process.env.VESTING_ACCOUNTS
   : [];
 
 const app = express();
+app.use(cors());
 const port = process.env.PORT || 3000;
 
 async function makeClientWithAuth(rpcUrl) {
@@ -66,12 +68,10 @@ async function updateData() {
     });
 
     totalStaked = stakingInfo.data.pool.bonded_tokens;
-    bondedRatio = totalStaked / totalSupply.data.amount.amount;
-    apr = 35 / bondedRatio;
+    totalUnbonding = stakingInfo.data.pool.not_bonded_tokens;
 
-    console.log("APR: ", apr);
     console.log("Total Staked: ", totalStaked);
-    console.log("Bonded ratio: ", bondedRatio);
+    console.log("Total Unbonding: ", totalUnbonding)
 
     // Loop through pool balances to find denom
     for (let i in communityPool.data.pool) {
