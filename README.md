@@ -6,10 +6,11 @@ The base route `/` returns all info in JSON:
 
 ```json
 {
-  "circulatingSupply": "31511686.018182",
-  "communityPool": "20008679.404121",
-  "denom": "JUNO",
-  "totalSupply": "65336746.085331"
+  "circulatingSupply": "257724268.83225",
+  "communityPool": "144096.149954",
+  "denom": "FLIX",
+  "totalStaked": "8622418.382844",
+  "totalSupply": "302868364.982205"
 }
 ```
 
